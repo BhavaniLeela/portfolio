@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+</head>
+<link rel="stylesheet" href="css/style.css">
+
+<body>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="signup.html">Signup</a>
+  </nav>
+</form>
+<h2>Welcome Back to Blogify ✨</h2>
+<form id="loginForm">
+  <input type="email" placeholder="Email" required />
+  <input type="password" placeholder="Password" required />
+  <button type="submit">Login</button>
+  <p style="text-align:center; margin-top:1em;">Don't have an account? <a href="signup.html">Sign Up</a></p>
+</form>
+  
+  <script>
+    document.getElementById('login-form').onsubmit = async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const response = await fetch('http://localhost:8000/api/login/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+      const data = await response.json();
+      localStorage.setItem('token', data.access);
+      window.location.href = 'index.html';
+    };
+  </script>
+</body>
+</html>

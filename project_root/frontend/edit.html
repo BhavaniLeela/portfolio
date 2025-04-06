@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Edit Blog</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav></nav>
+    <a href="index.html">🏠 Home</a>
+    <a href="create.html">✍️ Create Blog</a>
+    <a href="login.html">🔐 Logout</a>
+  </nav>
+
+  <h2>Edit Your Blog 📝</h2>
+  <form id="editForm">
+    <input type="text" value="Sample Blog Title" required />
+    <textarea rows="8">This is a sample blog content.</textarea>
+    <button type="submit">Update</button>
+  </form>
+  
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+    const token = localStorage.getItem('token');
+
+    fetch(`http://localhost:8000/api/blogs/${id}/`)
+      .then(res => res.json())
+      .then(blog => {
+        document.getElementById('title').value = blog.title;
+        document.getElementById('content').value = blog.content;
+      });
+
+    document.getElementById('edit-form').onsubmit = async (e) => {
+      e.preventDefault();
+      const title = document.getElementById('title').value;
+      const content = document.getElementById('content').value;
+      await fetch(`http://localhost:8000/api/blogs/${id}/edit/`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ title, content })
+      });
+      window.location.href = `detail.html?id=${id}`;
+    };
+  </script>
+</body>
+</html>

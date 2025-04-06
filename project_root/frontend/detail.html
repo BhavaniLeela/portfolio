@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Blog Detail</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav>
+    <a href="index.html">🏠 Home</a>
+    <a href="edit.html">🛠 Edit</a>
+    <a href="login.html">🔐 Logout</a>
+  </nav>
+
+  <div id="blog-detail"></div>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+    fetch(`http://localhost:8000/api/blogs/${id}/`)
+      .then(res => res.json())
+      .then(blog => {
+        const container = document.getElementById('blog-detail');
+        container.innerHTML = `<h2>${blog.title}</h2><p>${blog.content}</p>`;
+      });
+  </script>
+</body>
+</html>

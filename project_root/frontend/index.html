@@ -1,0 +1,73 @@
+<!-- frontend/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blogify | Share Your Thoughts</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body class="home-page">
+
+  <nav>
+    <a href="index.html">🏠 Home</a>
+    <a href="login.html">🔐 Login</a>
+    <a href="signup.html">📝 Signup</a>
+    <a href="create.html">✍️ Create Blog</a>
+  </nav>
+
+  <section style="text-align:center; margin-top: 2em;">
+    <h2>Welcome to <span style="color:#ff5733;">Blogify</span></h2>
+    <p style="font-size:1.2em; margin: 1em auto; max-width: 600px;">
+      <span id="typing"></span>
+    </p>
+    <button onclick="location.href='create.html'">Start Writing</button>
+  </section>
+
+  <section id="blogs-list">
+    <!-- Example blog card -->
+    <div class="blog-item">
+      <h3>🚀 Launching Your First Blog</h3>
+      <p>Discover how easy it is to publish your first post with Blogify.</p>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 Blogify | Built with ❤️ for creative minds
+  </footer>
+
+  <script>
+    const typingText = [
+      "Your ideas matter.",
+      "Inspire the world with your voice.",
+      "Blog your way to brilliance."
+    ];
+    let i = 0, j = 0, currentText = [], isDeleting = false;
+
+    function type() {
+      const display = document.getElementById("typing");
+      if (i < typingText.length) {
+        if (!isDeleting && j <= typingText[i].length) {
+          currentText = typingText[i].substring(0, j++);
+        } else if (isDeleting && j >= 0) {
+          currentText = typingText[i].substring(0, j--);
+        }
+
+        display.innerHTML = currentText + "|";
+
+        if (!isDeleting && j === typingText[i].length) {
+          isDeleting = true;
+          setTimeout(type, 1500);
+        } else if (isDeleting && j === 0) {
+          isDeleting = false;
+          i = (i + 1) % typingText.length;
+        }
+
+        setTimeout(type, isDeleting ? 50 : 100);
+      }
+    }
+    type();
+  </script>
+</body>
+</html>

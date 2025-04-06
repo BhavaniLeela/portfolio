@@ -1,0 +1,38 @@
+<html></html>
+<head>
+  <title>Create Blog</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav></nav>
+    <a href="index.html">🏠 Home</a>
+    <a href="edit.html">🛠 Edit Blog</a>
+    <a href="login.html">🔐 Logout</a>
+  </nav>
+
+  <h2>Write a New Blog ✍️</h2>
+  <form id="createForm">
+    <input type="text" placeholder="Blog Title" required />
+    <textarea rows="8" placeholder="Write your content here..." required></textarea>
+    <button type="submit">Publish</button>
+  </form>
+  
+  <script>
+    document.getElementById('create-form').onsubmit = async (e) => {
+      e.preventDefault();
+      const token = localStorage.getItem('token');
+      const title = document.getElementById('title').value;
+      const content = document.getElementById('content').value;
+      await fetch('http://localhost:8000/api/blogs/create/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ title, content })
+      });
+      window.location.href = 'index.html';
+    };
+  </script>
+</body>
+</html>
